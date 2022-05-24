@@ -1,0 +1,72 @@
+<form>
+    <input name="campoCriaPost" placeholder="O que voce esta pensando?"></input>
+    <button type="submit">Postar</button>
+</form>
+
+<ul class="listaDePosts">
+
+</ul>
+
+
+<script>
+    console.log("Olá pessoas!");
+    console.log("CRUD 2");
+
+    const miniRedeSocial = {
+        usuarios: [
+            {
+                username: 'matheuscamp',
+            }
+        ],
+        posts: [
+            {
+                id: 1,
+                owner: 'matheuscamp',
+                content: 'meu primeiro twitte',
+            }
+        ],
+        criaPost(dados, htmlOnly = false){
+            //cria posts na memória array objeto
+            if(!htmlOnly){
+                miniRedeSocial.posts.push({
+                    id: miniRedeSocial.posts.length+1,
+                    owner: dados.owner,
+                    content: dados.content
+                });
+            }
+            //cria posts no html
+            const $listaDePosts = document.querySelector('.listaDePosts'); //notação de classe como o css
+            $listaDePosts.insertAdjacentHTML('afterbegin',`<li>${dados.content}</li>`);
+        }
+    };
+
+    //linguagem pura:
+    //cria variaveis 
+    //sincronizar o conteúdo das vriáveis com HTML
+    //atualizar variáveis
+
+
+    //[Código de front end: web]
+    const $meuForm = document.querySelector("form");
+    console.log($meuForm);
+
+    //CRUD: Read
+
+    miniRedeSocial.posts.forEach(({owner, content})=>{
+        miniRedeSocial.criaPost({owner:owner,content:content}, true);
+    }
+    );
+
+    //CRUD: Create
+    $meuForm.addEventListener('submit', function criaPostController(infosDoEvento){
+            infosDoEvento.preventDefault();
+            console.log('Estamos criando um novo post');
+            const $campoCriaPost=document.querySelector('input[name="campoCriaPost"]');
+            //alert($campoCriaPost.value);
+            miniRedeSocial.criaPost({owner:'matheuscamp',content:$campoCriaPost.value});
+            console.log(miniRedeSocial.posts);
+            $campoCriaPost.value = '';
+        }  
+    );
+    
+</script>
